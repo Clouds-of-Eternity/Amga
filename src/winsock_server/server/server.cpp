@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "helper.hpp"
+
 // Need to link with Ws2_32.lib
 #pragma comment (lib, "Ws2_32.lib")
 // #pragma comment (lib, "Mswsock.lib")
@@ -79,13 +81,20 @@ int __cdecl main(void)
 
     while (1)
     {
+        printf("Start of while loop\n");
+        if (IsKeyDown(VK_SPACE))
+            break;
+
         iResult = listen(ListenSocket, SOMAXCONN);
-        SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
-        if (ClientSocket != INVALID_SOCKET) 
+        if (iResult != SOCKET_ERROR)
         {
-            ClientSockets[ClientCount] = ClientSocket;
-            ClientCount++;
-            printf("Client connected!\n");
+            //SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
+            //if (ClientSocket != INVALID_SOCKET) 
+            //{
+            //    ClientSockets[ClientCount] = ClientSocket;
+            //    ClientCount++;
+            //    printf("Client connected!\n");
+            //}
         }
 
         for (int i = 0; i < ClientCount; i++)
@@ -116,8 +125,7 @@ int __cdecl main(void)
             }
         }
 
-        // Add some termination condition here, probably button input
-        // break;
+        printf("End of loop\n");
     }
 
     // Close all client connections
