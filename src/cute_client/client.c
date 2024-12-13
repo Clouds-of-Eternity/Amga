@@ -116,7 +116,11 @@ void send_string(cn_client_t* client, const char* message)
 int main(void)
 {
 	// Must be unique for each different player in your game.
-	uint64_t client_id = 5;
+	// This would usually be obtained by querying a webservice so the client gets to know its id before connecting
+	// but that's pretty out of scope for this engine, so use rand for now
+
+	srand(time(0));
+	uint64_t client_id = rand();
 
 	const char* server_address_and_port = "127.0.0.1:2048";
 	cn_endpoint_t endpoint;
@@ -133,7 +137,7 @@ int main(void)
 	if (cn_is_error(result)) panic(result);
 	result = cn_client_connect(client, connect_token);
 	if (cn_is_error(result)) panic(result);
-	printf("Attempting to connect to server on port %d.\n", (int)endpoint.port);
+	printf("Attempting to connect to server on port %d with client id %d.\n", (int)endpoint.port, (int)client_id);
 
 	float clock = 0.0f;
 	bool connected_notify = false;
@@ -170,6 +174,14 @@ int main(void)
 		{
 			printf("Client encountered an error: %s.\n", cn_client_state_string(cn_client_state_get(client)));
 			//exit(-1);
+		}
+
+		char* message[512];
+		int length;
+		if (cn_client_pop_packet(client, message, &length, NULL))
+		{
+			printf("%s", *message);
+			//cn_client_free_packet(client, message);
 		}
 	}
 

@@ -78,7 +78,6 @@ int main(void)
 			else if (e.type == CN_SERVER_EVENT_TYPE_PAYLOAD_PACKET) 
 			{
 				printf("%s", (const char*)e.u.payload_packet.data);
-				
 				for (int i = 0; i < num_clients; i++)
 				{
 					if (client_indexes[i] != e.u.payload_packet.client_index)

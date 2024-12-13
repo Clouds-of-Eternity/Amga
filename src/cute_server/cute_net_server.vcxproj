@@ -101,6 +101,10 @@
   <ItemGroup>
     <ClCompile Include="server.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cute_client\cute_net.h" />
+    <ClInclude Include="..\cute_client\cute_time.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
