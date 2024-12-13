@@ -4,7 +4,8 @@
 // Get this header from here: https://github.com/RandyGaul/cute_headers/blob/master/cute_time.h
 #define CUTE_TIME_IMPLEMENTATION
 #include "cute_time.h"
-
+#define WINDOWS
+#include "Astral.Core/threading.hpp"
 #include <time.h>
 
 // This can be whatever you want. It's a unique identifier for your game or application, and
@@ -113,6 +114,11 @@ void send_string(cn_client_t* client, const char* message)
 	cn_client_send(client, message, size, false);
 }
 
+void type_messages()
+{
+
+}
+
 int main(void)
 {
 	// Must be unique for each different player in your game.
@@ -141,6 +147,8 @@ int main(void)
 
 	float clock = 0.0f;
 	bool connected_notify = false;
+
+	//NewThread();
 
 	while (1) 
 	{
