@@ -46,3 +46,7 @@
 *.db-shm
 *.opendb
 *.db-wal
+*.vcxproj
+*.sln
+bin
+obj
