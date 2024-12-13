@@ -1,0 +1,3 @@
+[submodule "Astral.Core"]
+	path = Astral.Core
+	url = https://github.com/Clouds-of-Eternity/Astral.Core.git

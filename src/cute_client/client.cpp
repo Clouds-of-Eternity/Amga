@@ -4,8 +4,9 @@
 // Get this header from here: https://github.com/RandyGaul/cute_headers/blob/master/cute_time.h
 #define CUTE_TIME_IMPLEMENTATION
 #include "cute_time.h"
-#define WINDOWS
-#include "Astral.Core/threading.hpp"
+
+#define ASTRALCORE_THREADING_IMPL
+#include "threading.hpp"
 #include <time.h>
 
 // This can be whatever you want. It's a unique identifier for your game or application, and
@@ -186,7 +187,7 @@ int main(void)
 
 		char* message[512];
 		int length;
-		if (cn_client_pop_packet(client, message, &length, NULL))
+		if (cn_client_pop_packet(client, (void**)message, &length, NULL))
 		{
 			printf("%s", *message);
 			//cn_client_free_packet(client, message);

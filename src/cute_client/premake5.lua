@@ -10,7 +10,7 @@ project "cute_client"
 
     includedirs {
         "./",
-        "../dependencies/Astral.Core"
+        "../../Astral.Core/Astral.Core"
     }
     files {
         "**.cpp",

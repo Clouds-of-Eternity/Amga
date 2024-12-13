@@ -10,7 +10,7 @@ project "cute_server"
 
     includedirs {
         "./",
-        "../dependencies/Astral.Core"
+        "../../Astral.Core/Astral.Core"
     }
     files {
         "**.cpp",
