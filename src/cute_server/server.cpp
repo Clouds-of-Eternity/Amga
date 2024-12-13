@@ -80,7 +80,7 @@ int main(void)
 				printf("%s", (const char*)e.u.payload_packet.data);
 				for (int i = 0; i < num_clients; i++)
 				{
-					if (client_indexes[i] != e.u.payload_packet.client_index)
+					if (client_indexes[i] != e.u.payload_packet.client_index && cn_server_is_client_connected(server, client_indexes[i]))
 						cn_server_send(server, e.u.payload_packet.data, e.u.payload_packet.size, client_indexes[i], true);
 				}
 				
@@ -89,7 +89,6 @@ int main(void)
 			} 
 			else if (e.type == CN_SERVER_EVENT_TYPE_DISCONNECTED) 
 			{
-				printf("Client disconnected on index %d.\n", e.u.disconnected.client_index);
 				int index = -1;
 				for (int i = 0; i < num_clients; i++)
 				{
@@ -100,6 +99,7 @@ int main(void)
 						client_indexes[i] = client_indexes[i + 1];
 				}
 				num_clients--;
+				printf("Client disconnected on index %d. %d left online\n", e.u.disconnected.client_index, num_clients);
 			}
 		}
 	}

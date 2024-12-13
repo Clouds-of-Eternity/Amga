@@ -115,10 +115,26 @@ void send_string(cn_client_t* client, const char* message)
 	cn_client_send(client, message, size, false);
 }
 
-void type_messages()
+struct chat_client
 {
+	char username[512];
+	cn_client_t* client;
+};
 
+THREAD_RESULT type_messages(void* UserData)
+{
+	chat_client chat = *(chat_client*)UserData;
+	char message[512];
+	char concat[512];
+	while (1)
+	{
+		fgets(message, 512, stdin);
+		sprintf(concat, "%s: %s", chat.username, message);
+		send_string(chat.client, concat);
+		printf("%s", concat);
+	}
 }
+
 
 int main(void)
 {
@@ -149,7 +165,11 @@ int main(void)
 	float clock = 0.0f;
 	bool connected_notify = false;
 
-	//NewThread();
+	chat_client chat_client;
+	strcpy(chat_client.username, username);
+	chat_client.client = client;
+
+	threading::StartThread(type_messages, &chat_client);
 
 	while (1) 
 	{
@@ -158,22 +178,22 @@ int main(void)
 	
 		cn_client_update(client, (double)dt, unix_time);
 
-		clock += dt;
-		if (clock > 2.0f)
-		{
-			clock -= 2.0f;
-			char test_message [512];
-			sprintf(test_message, "%s: This is a sample message!\n", username);
-			send_string(client, test_message);
-			printf("%s", test_message);
-		}
+		//clock += dt;
+		//if (clock > 2.0f)
+		//{
+		//	clock -= 2.0f;
+		//	char test_message [512];
+		//	sprintf(test_message, "%s: This is a sample message!\n", username);
+		//	send_string(client, test_message);
+		//	printf("%s", test_message);
+		//}
 
 		if (cn_client_state_get(client) == CN_CLIENT_STATE_CONNECTED) 
 		{
 			if (!connected_notify) 
 			{
 				connected_notify = true;
-				char login_message [512];
+				char login_message[512];
 				sprintf_s(login_message, 512, "%s has logged into the chat server.\n", username);
 				send_string(client, login_message);
 				printf("Client connected!\n");
